@@ -41,6 +41,7 @@ const Container = styled.div`
 `;
 
 const ButtonMargin = styled(Button)`
+display: block;
   margin-top: 50px;
 `
 
