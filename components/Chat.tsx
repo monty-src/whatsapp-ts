@@ -1,17 +1,37 @@
 import React from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { db, auth } from "../firebase";
+import { addDoc, collection, query, where } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 const Chat = ({ id, users }: { id: any; users: any }) => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
+  const usersCollection = collection(db, "users");
+  const userRef = query(
+    usersCollection,
+    where("email", "==", getRecipientEmail(users, user))
+  );
+  const [recipientSnapshot] = useCollection(userRef);
+
+  const enterChat = () => {
+    router.push(`/chat/${id}`)
+  }
+
+  const recipient = recipientSnapshot?.docs?.[0]?.data();
   const recipientEmail = getRecipientEmail(users, user);
 
   return (
-    <Container>
-      <UserAvatar />
+    <Container onClick={enterChat}>
+      {recipient ? (
+        <UserAvatar>{recipientEmail?.photoURL}</UserAvatar>
+      ) : (
+        <UserAvatar>{recipientEmail[0]}</UserAvatar>
+      )}
       <p>{recipientEmail}</p>
     </Container>
   );
@@ -27,7 +47,7 @@ const Container = styled.div`
   word-break: break-word;
 
   :hover {
-    background-color: #E9EAEB;
+    background-color: #e9eaeb;
   }
 `;
 

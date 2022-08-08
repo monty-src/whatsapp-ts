@@ -55,7 +55,7 @@ const Sidebar = () => {
   return (
     <Container>
       <Header>
-        <UserAvatar onClick={() => signOut(auth)} />
+        <UserAvatar src={user?.photoURL as string} onClick={() => signOut(auth)} />
         <IconsContainer>
           <IconButton>
             <ChatIcon />

@@ -1,12 +1,13 @@
 import React from "react";
+import Image from 'next/image';
 import Head from "next/head";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
+import Logo from '../public/logo.png';
 
 const Login = () => {
-  // signOut(auth);
   const signIn = async () =>
     await signInWithPopup(auth, provider)
       .then((response) => {
@@ -21,10 +22,10 @@ const Login = () => {
       </Head>
 
       <LoginContainer>
-        <Logo src="logo.png" />
-        <Button onClick={signIn} variant="outlined">
+        <Image src={Logo} width={200} height={200} alt="" />
+        <ButtonMargin onClick={signIn} variant="outlined">
           Sign in with GOOGLE
-        </Button>
+        </ButtonMargin>
       </LoginContainer>
     </Container>
   );
@@ -39,6 +40,10 @@ const Container = styled.div`
   background-color: whitesmoke;
 `;
 
+const ButtonMargin = styled(Button)`
+  margin-top: 50px;
+`
+
 const LoginContainer = styled.div`
   padding: 100px;
   display: flex;
@@ -47,10 +52,4 @@ const LoginContainer = styled.div`
   background-color: white;
   border-radius: 5px;
   box-shadow: 0px 4px 14px -3px rgba(0, 0, 0, 0.7);
-`;
-
-const Logo = styled.img`
-  height: 200px;
-  width: 200px;
-  margin-bottom: 50px;
 `;

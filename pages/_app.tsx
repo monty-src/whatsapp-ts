@@ -11,7 +11,6 @@ import { signOut } from "firebase/auth";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, loading] = useAuthState(auth);
-  console.log(user);
 
   useEffect(() => {
     const request = async () => {
@@ -44,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   }
   // }, [user]);
 
+  // return <Login />
   if (loading) return <Loading />;
   if (!user) return <Login />;
   return <Component {...pageProps} />;

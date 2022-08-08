@@ -1,7 +1,8 @@
 import React from "react";
-// @ts-ignore: Unreachable code error
+import Image from "next/image";
 import styled from "styled-components";
 import { PropagateLoader } from "react-spinners";
+import Logo from "../public/logo.png";
 
 declare global {
   namespace JSX {
@@ -18,7 +19,7 @@ const Loading = () => {
   return (
     <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
       <div>
-        <img src="logo.png" alt="" height={200} />
+        <Image src={Logo} width={200} height={200} alt="" />
         <Loader size={25} color="#3CBC28" />
       </div>
     </center>
