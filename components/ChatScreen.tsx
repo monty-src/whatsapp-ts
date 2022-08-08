@@ -10,6 +10,8 @@ import { db, auth } from "../firebase";
 import { Avatar } from "@mui/material";
 import { collection, query, orderBy } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
+import Message from '../components/Message';
+import { InsertEmoticon } from "@mui/icons-material";
 
 const ChatScreen = ({ chat, messages }: any) => {
   const [user] = useAuthState(auth);
@@ -20,11 +22,19 @@ const ChatScreen = ({ chat, messages }: any) => {
     orderBy("timestamp", "asc")
   );
   const [messagesSnapshot] = useCollection(queryMessagesCollection);
-  
+
   console.log(user);
   console.log(messagesSnapshot);
 
   const showMessages = () => {
+    if (messagesSnapshot) {
+      return messagesSnapshot.docs.map((message) => (
+        <Message key={message.id} user={messages.data().user} message={{
+          ...messages.data(),
+          timestamp: message.data().timestamp?.toDate().getTime()
+        }}></Message>
+      ));
+    }
     return;
   };
 
@@ -46,13 +56,20 @@ const ChatScreen = ({ chat, messages }: any) => {
         </HeaderIcons>
       </Header>
       <MessageContainer>
+        {showMessages()}
         <EndOfMessage />
       </MessageContainer>
+      <InputContainer>
+        <InsertEmoticon />
+        <Input />
+      </InputContainer>
     </Container>
   );
 };
 
 export default ChatScreen;
+
+const Input = styled.div``;
 
 const Container = styled.div``;
 
@@ -86,3 +103,4 @@ const EndOfMessage = styled.div``;
 const MessageContainer = styled.div``;
 
 const HeaderIcons = styled.div``;
+const InputContainer = styled.form``;
