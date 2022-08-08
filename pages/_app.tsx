@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   }
   // }, [user]);
 
-  return <Login />
+  // return <Login />
   if (loading) return <Loading />;
   if (!user) return <Login />;
   return <Component {...pageProps} />;
