@@ -12,11 +12,11 @@ const Chat = ({ id, users }: { id: any; users: any }) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const usersCollection = collection(db, "users");
-  const userRef = query(
+  const queryUsersCollection = query(
     usersCollection,
     where("email", "==", getRecipientEmail(users, user))
   );
-  const [recipientSnapshot] = useCollection(userRef);
+  const [recipientSnapshot] = useCollection(queryUsersCollection);
 
   const enterChat = () => {
     router.push(`/chat/${id}`)
@@ -28,7 +28,9 @@ const Chat = ({ id, users }: { id: any; users: any }) => {
   return (
     <Container onClick={enterChat}>
       {recipient ? (
-        <UserAvatar>{recipientEmail?.photoURL}</UserAvatar>
+        <>
+        <UserAvatar src={recipient?.photoURL} />
+        </>
       ) : (
         <UserAvatar>{recipientEmail[0]}</UserAvatar>
       )}

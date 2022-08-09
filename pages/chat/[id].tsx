@@ -18,7 +18,6 @@ import getRecipientEmail from "../../utils/getRecipientEmail";
 const Chat: NextPage = ({ chat, messages }: any) => {
   const [user] = useAuthState(auth);
 
-  console.log(chat, messages);
   return (
     <Container>
       <Head>
@@ -26,7 +25,7 @@ const Chat: NextPage = ({ chat, messages }: any) => {
       </Head>
       <Sidebar />
       <ChatContainer>
-        <ChatScreen chat={chat} message={messages} />
+        <ChatScreen chat={chat} messages={messages} />
       </ChatContainer>
     </Container>
   );
@@ -38,7 +37,7 @@ export async function getServerSideProps(context: any) {
   const chatsRef = doc(db, `chats/${context.query.id}`);
   const messagesCollection = collection(
     db,
-    `chats/${context.query.id}/ messages`
+    `chats/${context.query.id}/messages`
   );
 
   const queryMessagesCollection = query(

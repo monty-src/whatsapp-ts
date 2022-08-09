@@ -30,12 +30,11 @@ const Sidebar = () => {
 
     if (!input) return null;
 
-    if (!user) return null;
 
     if (
       EmailValidator.validate(input) &&
       !chatAlreadyExist(input) &&
-      input !== user.email
+      input !== user?.email
     ) {
       // we need to add the chat into the DB
       addDoc(collection(db, "chats"), {
